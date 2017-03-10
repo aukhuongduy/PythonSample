@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.task import Task
+from models.task import Message
 import mlab
 
 
@@ -41,3 +42,8 @@ class TaskRes(Resource):
         task.update(set__done=done,set__name=name)
         edited_task = Task.objects.with_id(task_id)
         return mlab.item2json(edited_task)
+    def delete(self,task_id):
+        task = Task.objects.with_id(task_id)
+        task.delete()
+        message = Message(message="Deleted")
+        return mlab.item2json(message)
