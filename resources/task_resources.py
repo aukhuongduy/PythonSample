@@ -9,6 +9,10 @@ class TaskListRes(Resource):
         tasks_json = mlab.list2json(tasks)
         return tasks_json
 
+class TaskRes(Resource):
+    def get(self, task_id):
+        task = Task.objects.with_id(task_id)
+        return mlab.item2json(task)
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument(name="name", type=str, location="json")
@@ -22,9 +26,3 @@ class TaskListRes(Resource):
 
         added_task = Task.objects().with_id(task.id)
         return  mlab.item2json(added_task)
-
-
-class TaskRes(Resource):
-    def get(self, task_id):
-        task = Task.objects.with_id(task_id)
-        return mlab.item2json(task)
